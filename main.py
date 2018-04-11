@@ -27,22 +27,27 @@ def create_temporary_copy(src):
     with open(src,'r+b') as f:
         shutil.copyfileobj(f,tf)
 
-    print ('temp file: %s' % tf.name)
-
     tf.seek(0) 
     return tf
-  
+
+def get_plain_text(soup):
+    plain_text = ''
+    lines = soup.find("body")
+    for line in lines.findAll('p'):
+        line = replace_with_newlines(line)
+        plain_text+=line
+    return plain_text
 
 for doc in get_documents():
     name = None
     with create_temporary_copy(doc) as temp:
         name = temp.name
 
-        # prove that it exists
-        print ('exists %s'% os.path.isfile(name)) # prints True
-
+        soup = BeautifulSoup(temp)
+        print (get_plain_text(soup))
+        
         # read all lines from the file
-        i = 0
-        for line in temp:
-            print (i, line.strip())
-            i += 1
+ #       i = 0
+ #       for line in temp:
+ #           print (i, line.strip())
+ #           i += 1
