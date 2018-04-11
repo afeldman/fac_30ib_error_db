@@ -31,11 +31,7 @@ def create_temporary_copy(src):
 
     tf.seek(0) 
     return tf
-    
-#    temp_path = os.path.join(temp_dir, 'temp_file_name')
-#    shutil.copy2(path, temp_path)
-#    return temp_path
-
+  
 
 for doc in get_documents():
     name = None
