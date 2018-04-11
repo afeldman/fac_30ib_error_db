@@ -32,22 +32,24 @@ def create_temporary_copy(src):
 
 def get_plain_text(soup):
     plain_text = ''
-    lines = soup.find("body")
-    for line in lines.findAll('p'):
-        line = replace_with_newlines(line)
+    lines = soup.findall('br')
+    for line in lines.findAll('br'):
         plain_text+=line
     return plain_text
+
+class FANUC_ERROR:
+
+    def __init__(self, label ):
+        self.titel = label
+       
 
 for doc in get_documents():
     name = None
     with create_temporary_copy(doc) as temp:
         name = temp.name
 
-        soup = BeautifulSoup(temp)
-        print (get_plain_text(soup))
-        
-        # read all lines from the file
- #       i = 0
- #       for line in temp:
- #           print (i, line.strip())
- #           i += 1
+        soup = BeautifulSoup(temp,'html.parser')
+        entries = [br.next for br in soup.find_all('p')]
+
+        print (entries)
+  
