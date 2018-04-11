@@ -104,8 +104,7 @@ def build_FANUC_ERR(ep):
     except Exception as e:
         print ('No rem ' + str(e))  
 
-    return (til, no, ty, bri, cau, rem)
-
+    return {'title': til, 'number': no, 'type':ty, 'desc':bri, 'cause':cau, 'remedy':rem}
 
 error_list=list()
 

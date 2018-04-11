@@ -1,0 +1,17 @@
+<html>
+<head>
+
+<META HTTP-EQUIV="content-type" CONTENT="text/html; charset=ISO-8859-1"><link rel='stylesheet' href='viewer.css' type='text/css'><meta name='generator' content='DocBook XSL Stylesheets V1.50.0'><meta name='generator' content='Arbortext Epic Version 4.3 (juniper)'>
+<title>3.15 Q</title>
+<link rel='home' href='book01.html' title='FANUC Robotics SYSTEM R-J3iB Software Error Code Manual'>
+<link rel='up' href='ch03.html' title='3. ERROR CODES'>
+<link rel='previous' href='ch03s14.html' title='3.14 P'>
+<link rel='next' href='ch03s16.html' title='3.16 R'>
+<script src='content.js'></script>
+</head>
+
+<body onload="newPage('ch03s15.html');" ondblclick='newSelection();' bgcolor='#FFFFFF' text='#000000' vlink='#840084' alink='#0000FF' class='TEXT' >
+<div class='sect1'><div class='titlepage'><div><h2 style='clear: both' class='title'><a id='d0e63114'></a>3.15 Q</h2></div></div><div class='sect2'><div class='titlepage'><div><h3 class='title'><a id='d0e63117'></a>3.15.1 QMGR Alarm Code</h3></div></div><br><div class="pyton"><p><u><b>QMGR-001 WARN Queue is full </b></u></p><p><b>Cause:</b> An attempt was made to add entry to a queue when the queue was full.</p><p><b>Remedy:</b> Use GET_QUEUE to remove entries or use a larger value for queue size in the INIT_QUEUE call.</p></div><br><div class="pyton"><p><u><b>QMGR-002 WARN Queue is empty </b></u></p><p><b>Cause:</b> An Attempt to use GET_QUEUE when there are no entries in the queue This is the normal result when no entries have been added or all have been removed by previous calls.</p><p><b>Remedy:</b> No remedy is required.</p></div><br><div class="pyton"><p><u><b>QMGR-003 WARN Bad sequence no </b></u></p><p><b>Cause:</b> A bad sequence_no value is used in an INSERT_QUEUE or DELETE_QUEUE call. The value may be less than 1 or greater than the sequence number of the last entry in the queue.</p><p><b>Remedy:</b> Correct the value</p></div><br><div class="pyton"><p><u><b>QMGR-004 WARN Bad n_skip value </b></u></p><p><b>Cause:</b> n_skip parameter in COPY_QUEUE call is less than zero</p><p><b>Remedy:</b> Use zero or a positive value </p></div></div>
+</body>
+</html>
+
