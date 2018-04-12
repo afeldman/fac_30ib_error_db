@@ -6,11 +6,22 @@ import rethinkdb as rdb
 from rethinkdb.errors import RqlRuntimeError, RqlDriverError
 from threading import Thread
 import json
+import os
+
+db_host = ''
+flask_host = ''
+
+try:
+	db_host = os.environ["DB_HOST"] 
+        flask_host = os.environ["FLASK_HOST"]
+except:
+	db_host = 'localhost'
+        flask_host = 'localhost'
 
 app = Flask(__name__, static_url_path='')
 app.config.from_object(__name__)
 app.config.update(dict(DEBUG=True,
-                       RDB_HOST='localhost',
+                       RDB_HOST=db_host,
                        RDB_PORT=28015,
                        DB_NAME='fanuc',
                        TABLE='ib30_error'))
@@ -111,4 +122,4 @@ def add():
                    
 #-------------------- main --------------
 if __name__ == '__main__':
-    app.run(debug = True, host='0.0.0.0')
+    app.run(debug = True, host=flask_host)

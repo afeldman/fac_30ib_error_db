@@ -12,8 +12,6 @@ try:
 except:
 	db_host = 'localhost'
 
-print db_host
-
 r.connect( db_host, 28015 ).repl()
 r.db_create("fanuc").run()
 r.db("fanuc").table_create("ib30_error").run()
