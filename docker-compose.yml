@@ -1,0 +1,19 @@
+version: '2'
+services:
+  db:
+    build: rethinkdb
+    ports:
+     - 28015:28015
+     - 8080:8080
+     - 29015:29015
+    command: rethinkdb --bind all
+  fac_30ib_errcode:
+    build: 
+      context: .
+      args:
+       DB_HOST: "db"
+    command: ["wait_for_it","127.0.0.1:8080","--","/fac_30ib/bootstrap.py"] #&& /fac_30ib/fac_30ib.py]
+    depends_on: 
+     - "db"
+    ports:
+     - 5000:5000
