@@ -61,18 +61,35 @@ def get_error(name, number):
 def get_all():
     return list(rdb.table(app.config['TABLE']).run(g.rdb_conn))
 
-def delete():
+def delete_all():
     for val in get_all():
         rdb.table(app.config['TABLE']).get(val['id']).delete().run(g.rdb_conn)
 
-def insert(title, typ, number, cause, desc, remedy):
-    rdb.table(app.config['TABLE']).insert({"title": title,
-                                           "type": typ,
-                                           "number": number,
-                                           "cause": cause,
-                                           "desc": desc,
-                                           "remedy": remedy}).run(g.rdb_conn)
+def delete(uuid):
+        rdb.table(app.config['TABLE']).get(uuid).delete().run(g.rdb_conn)
 
+def insert(title, typ, number, cause, desc, remedy):
+    return rdb.table(app.config['TABLE']).insert({"title": title,
+                                                  "type": typ,
+                                                  "number": number,
+                                                  "cause": cause,
+                                                  "desc": desc,
+                                                  "remedy": remedy}).run(g.rdb_conn)
+
+def make_update(id,elem,value):
+        if elem == 'title':
+                return rdb.table(app.config['TABLE']).get(id).update({'title':value}).run(g.rdb_conn))
+        if elem == 'type':
+                return rdb.table(app.config['TABLE']).get(id).update({'type':value}).run(g.rdb_conn))
+        if elem == 'number':
+                return rdb.table(app.config['TABLE']).get(id).update({'number':value}).run(g.rdb_conn))
+        if elem == 'cause':
+                return rdb.table(app.config['TABLE']).get(id).update({'cause':value}).run(g.rdb_conn))
+        if elem == 'desc':
+                return rdb.table(app.config['TABLE']).get(id).update({'desc':value}).run(g.rdb_conn))
+        if elem == 'remedy':
+                return rdb.table(app.config['TABLE']).get(id).update({'remedy':value}).run(g.rdb_conn))
+        
 
 #--------------------- URL --------------
 @app.route('/')
@@ -106,9 +123,9 @@ def delete(id):
     return jsonify(data)
 
 #test curl -H "Content-Type: application/json" -X POST -d '{"title":"test","type":"WARN","number":"001","cause":"","desc":"","remedy":""}'  http://127.0.0.1:5000/
-@app.route('/', methods=['POST'])
+@app.route('/', methods=['POST','PUT'])
 def add():
-    if (request.is_json) :
+    if (request.is_json):
         content = request.get_json()
         data = insert(title=content['title'],
                       typ=content['type'],
@@ -119,6 +136,19 @@ def add():
         return jsonify(data)
     else:
         return 'ERROR Message'
+
+@app.route('/<string:elem>', methods=['PATCH'])
+def patch(elem):
+    if (request.is_json):
+        content = request.get_json()
+        data = make_update(id=content['id'],
+                           elem,
+                           value=content['value'])
+        return jsonify(data)
+    else:
+        return 'ERROR Message'
+
+
                    
 #-------------------- main --------------
 if __name__ == '__main__':
