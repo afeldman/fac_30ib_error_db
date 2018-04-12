@@ -1,10 +1,20 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 import rethinkdb as r
 import json
+import os
 
 data = json.load(open('./asset/fanuc_error.json'))
 
-r.connect( "localhost", 28015).repl()
+db_host = ''
+
+try:
+	db_host = os.environ["DB_HOST"] 
+except:
+	db_host = 'localhost'
+
+print db_host
+
+r.connect( db_host, 28015 ).repl()
 r.db_create("fanuc").run()
 r.db("fanuc").table_create("ib30_error").run()
 

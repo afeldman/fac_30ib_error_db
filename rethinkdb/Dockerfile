@@ -4,14 +4,13 @@ ARG BUILD_DATE
 ARG VCS_REF
 ARG RETHINKDB_VERSION=2.3.6
 
-RUN echo "Rethinkdb for Alpine Linux" &&\
-	apk --no-cache upgrade &&\
-	apk --no-cache add \
-	rethinkdb\
-	su-exec &&\
-	mkdir /data &&\
-	chown daemon:daemon /data &&\
-	apk --no-cache info -v | sed "s/-r\d*$//g"|sed 's/\(.*\)-/\1 /' > /etc/manifest.txt
+RUN apk --no-cache upgrade &&\
+    apk --no-cache add \
+    rethinkdb\
+    su-exec &&\
+    mkdir /data &&\
+    chown daemon:daemon /data &&\
+    apk --no-cache info -v | sed "s/-r\d*$//g"|sed 's/\(.*\)-/\1 /' > /etc/manifest.txt
   
 VOLUME ["/data"]
 

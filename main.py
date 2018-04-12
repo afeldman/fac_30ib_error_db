@@ -1,26 +1,19 @@
 #!/usr/bin/env python
-
 # -*- coding:utf-8 -*-
 from flask import Flask, request, redirect, flash, render_template, url_for
 from flask import g, jsonify, render_template, request, abort, make_response, session
-from flask_socketio import SocketIO, send, emit
 import rethinkdb as rdb
 from rethinkdb.errors import RqlRuntimeError, RqlDriverError
 from threading import Thread
 import json
 
-
 app = Flask(__name__, static_url_path='')
 app.config.from_object(__name__)
-socketio = SocketIO(app)
 app.config.update(dict(DEBUG=True,
                        RDB_HOST='localhost',
                        RDB_PORT=28015,
                        DB_NAME='fanuc',
                        TABLE='ib30_error'))
-
-global thread
-thread = None
 
 # ---------------- DB Setting ------------------
 
@@ -118,5 +111,4 @@ def add():
                    
 #-------------------- main --------------
 if __name__ == '__main__':
-    app.debug = True
-    app.run()
+    app.run(debug = True, host='0.0.0.0')
