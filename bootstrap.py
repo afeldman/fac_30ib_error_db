@@ -1,9 +1,8 @@
 #!/usr/bin/env python
-import rethinkdb as r
+import rethinkdb as rdb
 import json
+from tqdm import tqdm
 import os
-
-data = json.load(open('./asset/fanuc_error.json'))
 
 db_host = ''
 
@@ -12,11 +11,22 @@ try:
 except:
 	db_host = 'localhost'
 
-r.connect( db_host, 28015 ).repl()
-r.db_create("fanuc").run()
-r.db("fanuc").table_create("ib30_error").run()
+r = rdb.RethinkDB()
 
-for elem in data:
+r.connect( db_host, 28015 ).repl()
+try:
+	r.db_create("fanuc").run()
+except rdb.errors.ReqlOpFailedError:
+	print("database exists")
+
+try:
+	r.db("fanuc").table_create("ib30_error").run()
+except rdb.errors.ReqlOpFailedError:
+	print("table exists")
+
+data = json.load(open('./asset/fanuc_error.json'))
+
+for elem in tqdm(data):
     r.db("fanuc").table("ib30_error").insert(elem).run()
 
 r.db("fanuc").table("ib30_error").index_create('number').run()

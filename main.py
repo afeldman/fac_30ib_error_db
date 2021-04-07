@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
+
 from flask import Flask, request, redirect, flash, render_template, url_for
 from flask import g, jsonify, render_template, request, abort, make_response, session
-import rethinkdb as rdb
+import rethinkdb as r
 from rethinkdb.errors import RqlRuntimeError, RqlDriverError
 from threading import Thread
 import json
@@ -12,11 +13,13 @@ db_host = ''
 flask_host = ''
 
 try:
-	db_host = os.environ["DB_HOST"] 
-        flask_host = os.environ["FLASK_HOST"]
+    db_host = os.environ["DB_HOST"]
+    flask_host = os.environ["FLASK_HOST"]
 except:
-	db_host = 'localhost'
-        flask_host = 'localhost'
+    db_host = 'localhost'
+    flask_host = 'localhost'
+
+rdb = r.RethinkDB()
 
 app = Flask(__name__, static_url_path='')
 app.config.from_object(__name__)
